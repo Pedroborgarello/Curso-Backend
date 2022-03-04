@@ -1,0 +1,24 @@
+[
+  {
+    "id": 1,
+    "title": "Talleres de Córdoba home",
+    "price": 11000,
+    "thumbnail": "https://tienda.clubtalleres.com.ar/wp-content/uploads/2022/02/titular-frente-copia.jpg"
+  },
+  {
+    "id": 2,
+    "title": "Fc Barcelona home",
+    "price": 11000,
+    "thumbnail": "https://sporting.vteximg.com.br/arquivos/ids/353680-1500-1500/4CV7891-428-1.jpg?v=637655797451100000"
+  },{
+    "id": 3,
+    "title": "Ac Milan home",
+    "price": 11000,
+    "thumbnail": "https://store.acmilan.com/images/milan/products/small/MI21A07.webp"
+  },{
+    "id": 4,
+    "title": "Manchester City home",
+    "price": 11000,
+    "thumbnail": "https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_1536,h_1536/global/759202/01/fnd/ARG/fmt/png"
+  }
+]
