@@ -18,7 +18,7 @@ class Container {
                 products.push(dataObj);
                 try {
                     await fs.promises.writeFile("./products.txt", JSON.stringify(products, null, 2));
-                    return { status: 'success', message: `product successfully, id: ${dataObj.id}`, id: parseInt(dataObj.id) }
+                    return { status: 'success', message: `product successfully, id: ${dataObj.id}`, id: `${dataObj.id}` }
                 } catch (err) {
                     return {
                         status: 'error', message: 'the product could not be created:' + err
@@ -34,7 +34,8 @@ class Container {
             }
             try {
                 await fs.promises.writeFile("./products.txt", JSON.stringify([dataObj], null, 2))
-                return { status: 'success', message: `product successfully, id: ${dataObj.id}`, id: parseInt(dataObj.id) }
+                return {
+                    status: 'success', message: `product successfully, id: ${dataObj.id}`, id: `${dataObj.id}` }
             } catch (err) {
                 return { status: 'error', message: 'the product could not be created:' + err }
             }
@@ -96,6 +97,25 @@ class Container {
             let randomIndex = Math.floor(Math.random() * quantityProducts);
             let randomProduct = products[randomIndex];
             return { product: randomProduct }
+        } catch (err) {
+            return { status: 'error', message: 'the product was not found' }
+        }
+    }
+
+    async upgradeById(id, body){
+        let dataObj = {
+            id: id,
+            title: body.title,
+            price: body.price,
+            thumbnail: body.thumbnail
+        }
+        try {
+            let data = await fs.promises.readFile('./products.txt', 'utf-8');
+            let products = JSON.parse(data);
+            let product = products.filter(prod => parseInt(prod.id) !== parseInt(id));
+            product.push(dataObj);
+            await fs.promises.writeFile('./products.txt', JSON.stringify(product));
+            return { product: product, message: 'product upgrade successfully'}
         } catch (err) {
             return { status: 'error', message: 'the product was not found' }
         }

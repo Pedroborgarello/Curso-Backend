@@ -10,12 +10,14 @@
     "title": "Fc Barcelona home",
     "price": 11000,
     "thumbnail": "https://sporting.vteximg.com.br/arquivos/ids/353680-1500-1500/4CV7891-428-1.jpg?v=637655797451100000"
-  },{
+  },
+  {
     "id": 3,
     "title": "Ac Milan home",
     "price": 11000,
     "thumbnail": "https://store.acmilan.com/images/milan/products/small/MI21A07.webp"
-  },{
+  },
+  {
     "id": 4,
     "title": "Manchester City home",
     "price": 11000,
