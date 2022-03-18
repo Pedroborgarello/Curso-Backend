@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+// const handlebars = require("express-handlebars");
 const PORT = process.env.PORT||8080;
 
 const router = express.Router();
@@ -12,9 +13,23 @@ const server = app.listen(PORT, () => {
 
 app.use(express.static('public'));
 
+app.set('views', './views');
+app.set('view engine', 'hbs');
+
+
 const Container = require('./container');
 const container = new Container();
 
+
+app.get('/view/products', (req, res) => {
+    container.getAll().then(result => {
+        let info = result.product;
+        let dataObj = {
+            products : info
+        }
+        res.render('products', dataObj)
+    })
+})
 
 router.get('/', (req, res) => {
     container.getAll().then(result => {
