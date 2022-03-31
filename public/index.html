@@ -19,5 +19,21 @@
         <button>Sumbit</button>
     </form>
     <input type="button" onclick="location.href='/view/products'" value="productos">
+
+    <h3>Chat</h3>
+    <form onsubmit="return addMessage(this)">
+        <label for="user">User Name</label>
+        <input type="text" id="user" name="user" required>
+        <label for="message">Message</label>
+        <input type="text" id="message" name="message">
+        <button type="sumbit">Send</button>
+    </form>
+
+    <div id="chatContainer">
+        
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="index.js"></script>
 </body>
 </html>

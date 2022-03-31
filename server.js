@@ -1,20 +1,34 @@
 const express = require('express');
+const { Server: IOServer } = require('socket.io');
 const app = express();
-// const handlebars = require("express-handlebars");
 const PORT = process.env.PORT||8080;
-
-const router = express.Router();
-router.use(express.urlencoded({ extended: true}));
-router.use(express.json());
 
 const server = app.listen(PORT, () => {
     console.log('Server listening on: ' + PORT);
 });
 
-app.use(express.static('public'));
+const io = new IOServer(server);
+
+const router = express.Router();
+router.use(express.urlencoded({ extended: true}));
+router.use(express.json());
+
+app.use(express.static(__dirname+'/public'));
 
 app.set('views', './views');
 app.set('view engine', 'hbs');
+
+let messages = [];
+
+io.on('connection', socket => {
+    console.log("connected client " + socket.id);
+    socket.emit('messagelog', messages);
+    socket.emit('welcome', 'Welcome to chat with sockets');
+    socket.on('message', data => {
+        messages.push(data);
+        io.emit('messagelog', messages);
+    })
+})
 
 
 const Container = require('./container');
