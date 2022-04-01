@@ -20,6 +20,7 @@ app.set('view engine', 'hbs');
 
 let messages = [];
 
+
 io.on('connection', socket => {
     console.log("connected client " + socket.id);
     socket.emit('messagelog', messages);

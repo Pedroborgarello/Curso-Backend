@@ -69,6 +69,7 @@ img {
 
 #chatContainer div {
     margin-left: 7px;
+    text-transform: none;
 }
 
 .spanUser {
@@ -79,4 +80,9 @@ img {
 .spanMessage {
     color: #1c7214;
     font-style: italic;
+}
+
+.spanDate {
+    color: #5c3a1b;
+    
 }

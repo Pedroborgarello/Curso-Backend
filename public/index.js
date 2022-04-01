@@ -14,10 +14,19 @@ input.addEventListener('keyup', (e) => {
     }
 })*/
 
+function verificarHora() {
+    let hoy = new Date();
+    let hour = hoy.getHours() + ':' + hoy.getMinutes();
+    let date = hoy.getDate() + '/' + (hoy.getMonth() + 1) + '/' + hoy.getFullYear() + ' ' + hour;
+    return date;
+}
+
 function addMessage(e) {
+    
     const message = {
         user: document.getElementById('user').value,
-        message: document.getElementById('message').value
+        message: document.getElementById('message').value,
+        date: verificarHora()
     }
     if (document.getElementById('message').value !== '') {
         socket.emit('message', message);
@@ -28,7 +37,7 @@ function addMessage(e) {
 socket.on('messagelog', data => {
     let div = document.getElementById('chatContainer');
     let messages = data.map(message => {
-        return `<div><span class="spanUser">${message.user}: </span><span class="spanMessage">${message.message}</span></div>`
+        return `<div><span class="spanUser">${message.user}</span> <span class="spanDate">[${message.date}]: </span><span class="spanMessage">${message.message}</span></div>`
     }).join('');
     div.innerHTML = messages;
 })
