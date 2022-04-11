@@ -1,5 +1,7 @@
 const express = require('express');
 const { Server: IOServer } = require('socket.io');
+const routerProducts = require('./routes/products');
+const routerCart = require('./routes/cart');
 const app = express();
 const PORT = process.env.PORT||8080;
 
@@ -9,9 +11,10 @@ const server = app.listen(PORT, () => {
 
 const io = new IOServer(server);
 
-const router = express.Router();
-router.use(express.urlencoded({ extended: true}));
-router.use(express.json());
+app.use('/api/product', routerProducts);
+app.use('/api/cart', routerCart)
+app.use(express.urlencoded({ extended: true}));
+app.use(express.json());
 
 app.use(express.static(__dirname+'/public'));
 
@@ -31,11 +34,6 @@ io.on('connection', socket => {
     })
 })
 
-
-const Container = require('./container');
-const container = new Container();
-
-
 app.get('/view/products', (req, res) => {
     container.getAll().then(result => {
         let info = result.product;
@@ -46,6 +44,8 @@ app.get('/view/products', (req, res) => {
     })
 })
 
+// ROUTER EN PRODUCTOS
+/*
 router.get('/', (req, res) => {
     container.getAll().then(result => {
         res.send(result.product);
@@ -85,3 +85,6 @@ router.delete('/:id', (req, res) => {
 })
 
 app.use('/api/product', router);
+*/
+
+

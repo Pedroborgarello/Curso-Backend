@@ -1,9 +1,10 @@
 const fs = require('fs');
+const productsURL = __dirname+'/files/products.txt';
 
 class Container {
     async save(product){
         try{
-            let data = await fs.promises.readFile("./products.txt", 'utf-8');
+            let data = await fs.promises.readFile(productsURL, 'utf-8');
             let products = JSON.parse(data);
             let productId = products.length;
             if (products.some(prod => prod.title.toLowerCase() === product.title.toLowerCase())) {
@@ -17,7 +18,7 @@ class Container {
                 }
                 products.push(dataObj);
                 try {
-                    await fs.promises.writeFile("./products.txt", JSON.stringify(products, null, 2));
+                    await fs.promises.writeFile(productsURL, JSON.stringify(products, null, 2));
                     return { status: 'success', message: `product successfully, id: ${dataObj.id}`, id: `${dataObj.id}` }
                 } catch (err) {
                     return {
@@ -33,7 +34,7 @@ class Container {
                 thumbnail: product.thumbnail
             }
             try {
-                await fs.promises.writeFile("./products.txt", JSON.stringify([dataObj], null, 2))
+                await fs.promises.writeFile(productsURL, JSON.stringify([dataObj], null, 2))
                 return {
                     status: 'success', message: `product successfully, id: ${dataObj.id}`, id: `${dataObj.id}` }
             } catch (err) {
@@ -44,7 +45,7 @@ class Container {
 
     async getById(id){
         try {
-            let data = await fs.promises.readFile('./products.txt', 'utf-8');
+            let data = await fs.promises.readFile(productsURL, 'utf-8');
             let products = JSON.parse(data);
             let product = products.find(prod => parseInt(prod.id) === parseInt(id));
             if (product) {
@@ -59,7 +60,7 @@ class Container {
 
     async getAll(){
         try {
-            let data = await fs.promises.readFile('./products.txt', 'utf-8');
+            let data = await fs.promises.readFile(productsURL, 'utf-8');
             let products = JSON.parse(data);
             return { product: products }
         } catch (err) {
@@ -69,10 +70,10 @@ class Container {
 
     async deleteById(id){
         try {
-            let data = await fs.promises.readFile('./products.txt', 'utf-8');
+            let data = await fs.promises.readFile(productsURL, 'utf-8');
             let products = JSON.parse(data);
             let product = products.filter(prod => parseInt(prod.id) !== parseInt(id));
-            await fs.promises.writeFile('./products.txt', JSON.stringify(product, null, 2));
+            await fs.promises.writeFile(productsURL, JSON.stringify(product, null, 2));
             return { product: product, message: 'product removed successfully' }
         } catch (err) {
             return { status: 'error', message: 'the product was not found' }
@@ -82,7 +83,7 @@ class Container {
     async deleteAll(){
         try {
             let deleteAll = [];
-            await fs.promises.writeFile('./products.txt', JSON.stringify(deleteAll));
+            await fs.promises.writeFile(productsURL, JSON.stringify(deleteAll));
             return { message: 'products removed successfully' }
         } catch (err) {
             return { message: 'action could not be completed' }
@@ -91,7 +92,7 @@ class Container {
 
     async getRandom(){
         try {
-            let data = await fs.promises.readFile('./products.txt', 'utf-8');
+            let data = await fs.promises.readFile(productsURL, 'utf-8');
             let products = JSON.parse(data);
             let quantityProducts = products.length;
             let randomIndex = Math.floor(Math.random() * quantityProducts);
@@ -110,11 +111,11 @@ class Container {
             thumbnail: body.thumbnail
         }
         try {
-            let data = await fs.promises.readFile('./products.txt', 'utf-8');
+            let data = await fs.promises.readFile(productsURL, 'utf-8');
             let products = JSON.parse(data);
             let product = products.filter(prod => parseInt(prod.id) !== parseInt(id));
             product.push(dataObj);
-            await fs.promises.writeFile('./products.txt', JSON.stringify(product));
+            await fs.promises.writeFile(productsURL, JSON.stringify(product));
             return { product: product, message: 'product upgrade successfully'}
         } catch (err) {
             return { status: 'error', message: 'the product was not found' }
@@ -123,6 +124,9 @@ class Container {
 }
 
 module.exports = Container;
+
+
+
 
 // let product = new Container();
 
