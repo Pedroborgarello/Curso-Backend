@@ -1,11 +1,11 @@
 const fs = require('fs');
-const cartURL = __dirname+'/files/cart.txt';
+
 const verificarHora = require('../utils');
 
 class ContainerCart {
     async save(cart){
         try {
-            let data = await fs.promises.readFile(cartURL, 'utf-8');
+            let data = await fs.promises.readFile('./files/cart.txt', 'utf-8');
             let carts = JSON.parse(data);
             let cartId = carts.length;
             if (carts.some(cartsArray => parseInt(cartsArray.id) === parseInt(cart.id))){
@@ -14,11 +14,11 @@ class ContainerCart {
                 let dataCart = {
                     id: cartId + 1,
                     timestamp: verificarHora,
-                    products: cart.products
+                    products: cart
                 }
                 carts.push(dataCart);
                 try {
-                    await fs.promises.writeFile(cartURL, JSON.stringify(carts, null,2));
+                    await fs.promises.writeFile('./files/cart.txt', JSON.stringify(carts, null,2));
                     return { status: 'success', message: `product successfully, id: ${dataCart.id}`, id: `${dataCart.id}` }
                 } catch (err) {
                     return { status: 'error', message: 'the cart could not be created:' + err }
@@ -28,10 +28,10 @@ class ContainerCart {
             let dataCart = {
                 id: 1,
                 timestamp: verificarHora,
-                products: cart.products
+                products: cart
             }
             try {
-                await fs.promises.writeFile(cartURL, JSON.stringify([dataCart], null, 2))
+                await fs.promises.writeFile('./files/cart.txt', JSON.stringify([dataCart], null, 2))
                 return { status: 'success', message: `cart successfully, id: ${dataCart.id}`, id: `${dataCart.id}` }
             } catch (err) {
                 return { status: 'error', message: 'the cart could not be created:' + err }
@@ -41,10 +41,10 @@ class ContainerCart {
 
     async deleteById(id){
         try {
-            let data = await fs.promises.readFile(cartURL, 'utf-8');
+            let data = await fs.promises.readFile('./files/cart.txt', 'utf-8');
             let carts = Json.parse(data);
             let cart = carts.filter(cartsArray => parseInt(cartsArray.id) !== parseInt(id));
-            await fs.promises.writeFile(cartURL, JSON.stringify(cart, null, 2))
+            await fs.promises.writeFile('./files/cart.txt', JSON.stringify(cart, null, 2))
             return { cart: cart, message: 'cart removed successfully' }
         } catch (err) {
             return { status: 'error', message: 'the cart was not found' }
@@ -53,7 +53,7 @@ class ContainerCart {
 
     async getById(id){
         try {
-            let data = await fs.promises.readFile(cartURL, 'utf-8');
+            let data = await fs.promises.readFile('./files/cart.txt', 'utf-8');
             let carts = JSON.parse(data);
             let cart = carts.find(cartsArray => parseInt(cartsArray.id) === parseInt(id));
             if (cart) {
@@ -68,12 +68,12 @@ class ContainerCart {
 
     async addToCart(id, body){
         try {
-            let data = await fs.promises.readFile(cartURL, 'utf-8');
+            let data = await fs.promises.readFile('./files/cart.txt', 'utf-8');
             let carts = JSON.parse(data);
             let cart = carts.find(cartsArray => parseInt(cartsArray.id) === parseInt(id));
             if (cart){
                 cart.products += body;
-                await fs.promises.writeFile(cartURL, JSON.stringify(cart))
+                await fs.promises.writeFile('./files/cart.txt', JSON.stringify(cart))
                 return { product: body, message: 'product add to cart'}
             } else {
                 return { status: 'error' }

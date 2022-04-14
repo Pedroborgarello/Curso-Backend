@@ -6,4 +6,4 @@ function verificarHora() {
     return date;
 }
 
-export default verificarHora;
+module.exports = { verificarHora };

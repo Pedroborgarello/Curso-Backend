@@ -1,7 +1,7 @@
 const express = require('express');
 const { Server: IOServer } = require('socket.io');
-const routerProducts = require('./routes/products');
-const routerCart = require('./routes/cart');
+const { router } = require('./routes/products');
+const { routerCart } = require('./routes/cart');
 const app = express();
 const PORT = process.env.PORT||8080;
 
@@ -11,8 +11,9 @@ const server = app.listen(PORT, () => {
 
 const io = new IOServer(server);
 
-app.use('/api/product', routerProducts);
-app.use('/api/cart', routerCart)
+//app.use('/api', router);
+app.use('/api/product', router);
+app.use('/api/cart', routerCart);
 app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
 

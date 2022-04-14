@@ -4,9 +4,12 @@ const router = express.Router();
 const Container = require('../classes/container');
 const container = new Container();
 
+// RUTAS PRODUCTOS
+
 router.get('/', (req, res) => {
     container.getAll().then(result => {
         res.send(result.product);
+        console.log(result.product);
     })
 })
 
@@ -15,6 +18,7 @@ router.get('/:id', (req, res) => {
     id = parseInt(id);
     container.getById(id).then(result => {
         res.send(result.product);
+        
     })
 })
 
@@ -42,4 +46,4 @@ router.delete('/:id', (req, res) => {
     })
 })
 
-export default router;
+module.exports = { router };

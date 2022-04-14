@@ -1,17 +1,17 @@
 const express = require("express");
-const router = express.Router();
+const routerCart = express.Router();
 
-const ContainerCart = require('./classes/ContainerCart');
+const ContainerCart = require('../classes/containerCart');
 const containerCart = new ContainerCart();
 
-router.post('/', (req, res) => {
+routerCart.post('/', (req, res) => {
     let body = req.body;
     containerCart.save(body).then(result => {
         res.send(result.id);
     })
 })
 
-router.delete('/:id', (req, res) => {
+routerCart.delete('/:id', (req, res) => {
     let id = req.params.id;
     id = parseInt(id);
     containerCart.deleteById(id).then(result => {
@@ -19,7 +19,7 @@ router.delete('/:id', (req, res) => {
     })
 })
 
-router.get('/:id/products', (req, res) => {
+routerCart.get('/:id/products', (req, res) => {
     let id = req.params.id;
     id = parseInt(id);
     containerCart.getById(id).then(result => {
@@ -27,7 +27,7 @@ router.get('/:id/products', (req, res) => {
     })
 })
 
-router.post('/:id/products', (req, res) => {
+routerCart.post('/:id/products', (req, res) => {
     let id = req.params.id;
     id = parseInt(id);
     let body = req.body;
@@ -36,4 +36,4 @@ router.post('/:id/products', (req, res) => {
     })
 })
 
-export default router;
+module.exports = { routerCart };
