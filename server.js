@@ -5,25 +5,23 @@ const { routerCart } = require('./routes/cart');
 const app = express();
 const PORT = process.env.PORT||8080;
 
+app.use(express.urlencoded({ extended: true}));
+app.use(express.json());
+//app.use('/api', router);
+app.use('/api/product', router);
+app.use('/api/cart', routerCart);
+
 const server = app.listen(PORT, () => {
     console.log('Server listening on: ' + PORT);
 });
 
-const io = new IOServer(server);
-
-//app.use('/api', router);
-app.use('/api/product', router);
-app.use('/api/cart', routerCart);
-app.use(express.urlencoded({ extended: true}));
-app.use(express.json());
-
 app.use(express.static(__dirname+'/public'));
+const io = new IOServer(server);
 
 app.set('views', './views');
 app.set('view engine', 'hbs');
 
 let messages = [];
-
 
 io.on('connection', socket => {
     console.log("connected client " + socket.id);

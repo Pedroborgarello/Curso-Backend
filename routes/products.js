@@ -6,6 +6,8 @@ const container = new Container();
 
 // RUTAS PRODUCTOS
 
+let administrator = true;
+
 router.get('/', (req, res) => {
     container.getAll().then(result => {
         res.send(result.product);
@@ -23,27 +25,39 @@ router.get('/:id', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-    let body = req.body;
-    container.save(body).then(result => {
-        res.send(result.id);
-    })
+    if (administrator){
+        let body = req.body;
+        container.save(body).then(result => {
+            res.send(result.id);
+        })
+    } else {
+        return {status: 'error'}
+    }
 })
 
 router.put('/:id', (req, res) => {
-    let id = req.params.id;
-    id = parseInt(id);
-    let body = req.body;
-    container.upgradeById(id, body).then(result => {
-        res.send(result.message);
-    })
+    if (administrator){ 
+        let id = req.params.id;
+        id = parseInt(id);
+        let body = req.body;
+        container.upgradeById(id, body).then(result => {
+            res.send(result.message);
+        })
+    } else {
+        return {status: 'error'}
+    }
 })
 
 router.delete('/:id', (req, res) => {
-    let id = req.params.id;
-    id = parseInt(id);
-    container.deleteById(id).then(result => {
-        res.send(result.message);
-    })
+    if (administrator){
+        let id = req.params.id;
+        id = parseInt(id);
+        container.deleteById(id).then(result => {
+            res.send(result.message);
+        })
+    } else {
+        return {status: 'error'}
+    }
 })
 
 module.exports = { router };
